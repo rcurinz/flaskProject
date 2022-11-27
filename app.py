@@ -18,6 +18,11 @@ def mp_temuco():
     return render_template('/mp-temuco.html', data="data1111")
 
 
+@app.route("/pregunta1")
+def pregunta1():
+    return render_template('/pregunta1.html', data="data1111")
+
+
 @app.route('/datos', methods=['POST'])
 def GetData():  # put application's code here
     data = request.data.decode('utf-8')
