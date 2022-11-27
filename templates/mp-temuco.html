@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+    <!-- Libreeria de los graficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #map { width: 100%;
+            height: 400px; }
+    </style>
+</head>
+<body onload="grafico1()">
+     <div id="map"></div>
+     <div id="div-1" style="width:1000px; height: 300px" >
+         <canvas id='myCanvas' ></canvas>
+     </div>
+
+<script>
+    const Temuco = [-38.737554, -72.597014]
+    var map = L.map('map').setView(Temuco, 13);
+
+    var Paris_Centro = L.marker([-38.73839,-72.59041]).addTo(map)
+    var plaza_hospital = L.marker([-38.73745,-72.59663]).addTo(map)
+    var javieraCarrera_Recabarren = L.marker([-38.75611,-72.63923]).addTo(map)
+    var mallPortal = L.marker([-38.73409,-72.61356]).addTo(map)
+    var CopecNorte = L.marker([-38.71131,-72.55896]).addTo(map)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    Paris_Centro.bindPopup(`
+
+    `)
+
+    plaza_hospital.bindPopup(`
+      <h3>CAMPUS SAN JUAN PABLO II</h3>
+    `)
+
+    javieraCarrera_Recabarren.bindPopup(`
+      <h3>CAMPUS MENCHACA LIRA</h3>
+    `)
+
+    mallPortal.bindPopup(`
+      <h3>CAMPUS LUIS RIVAS DEL CANTO</h3>
+    `)
+
+    CopecNorte.bindPopup(`
+      <h3>PRENSA INSTITUCIONAL</h3>
+    `)
+
+</script>
+
+<script>
+    function grafico1() {
+        new Chart(document.getElementById("myCanvas"), {
+            type: 'line',
+            data: {
+                labels: ["t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                datasets: [{
+                    data: [1,2,3,4,5,6,7,8,9],
+                    label: "MP 01",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }, {
+                    data: [2,3,4,5,6,7,8,9,10],
+                    label: "MP 25",
+                    borderColor: "#8e5ea2",
+                    fill: false
+                }, {
+                    data: [3,4,5,6,7,8,9,10,11],
+                    label: "MP 10",
+                    borderColor: "#3cba9f",
+                    fill: false
+                }, {
+                    data: [4,5,6,7,8,9,10,11,12],
+                    label: "temperatura",
+                    borderColor: "#e8c3b9",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Positive Cases of COVID in provinces of Canada'
+                },
+            }
+        });
+    }
+
+
+        fetch('/estacion1')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+</script>
+
+</body>
+</html>
