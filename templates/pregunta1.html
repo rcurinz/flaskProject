@@ -13,6 +13,10 @@
             <div class="card">
                 <div class="card-body">
                     <canvas id="canvas"></canvas>
+                    <form action="send_message" method="post">
+                        <input type="text" name="message" id="message" style="display: none">
+                        <input type="submit" onclick="descargar()">RDescargar imagen canvas</input>
+                    </form>
                 </div>
             </div>
         </div>
@@ -25,6 +29,16 @@
 <!--suppress JSUnresolvedLibraryURL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 <script>
+    function descargar(){
+        //Descargar imagen de un canvas
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var dataURL = canvas.toDataURL("image/png");
+        document.getElementById("message").value = dataURL;
+    }
+
+
+
     $(document).ready(function () {
         const config = {
             type: 'line',

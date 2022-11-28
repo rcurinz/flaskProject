@@ -8,11 +8,15 @@ import random as ra
 import time
 from datetime import datetime
 import sqlite3
+import telepot
+import requests
+import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'donsky!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 ra.seed()
+
 
 def stream_template(template_name, **context):
     app.update_template_context(context)
@@ -30,6 +34,17 @@ def Generate():
     }
 
     return dData
+
+def msg_telegram(text, img):
+    print(img)
+    token = "5825906183:AAFVzSS2fhYtpunuVfGwLgR5J9UNG8St-RM"
+    chat_id = "1501224682"
+    bot = telepot.Bot(token)
+    image_64_decode = base64.decodebytes(img.split(",")[1].encode('utf-8'))
+    image_result = open('imagen.gif', 'wb')  # create a writable image and write the decoding result
+    image_result.write(image_64_decode)
+    bot.sendMessage(chat_id,"Mensaje enviado por una personita grande")
+    bot.sendPhoto(chat_id, photo=open("imagen.gif", 'rb'))
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -68,6 +83,18 @@ def pregunta1():
 def pregunta_1():
     return render_template('/pregunta1.html', data = "data1111")
 
+
+@app.route("/send_message", methods=['POST'])
+def send_message():
+    message = request.form['message']
+    msg_telegram("test",message)
+    return render_template('/pregunta1.html', data = message)
+
+
+@app.route("/send_message_telepot")
+def send_message_telepot():
+
+    return render_template('/pregunta1.html')
 
 
 @app.route('/datos', methods=['POST'])
