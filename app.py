@@ -7,6 +7,7 @@ import json
 import random as ra
 import time
 from datetime import datetime
+import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'donsky!'
@@ -40,8 +41,22 @@ def mp_temuco():
 
 @app.route('/mapas')
 def mapas():
-    return render_template('/mapas.html', data="data1111")
+    return render_template('/mapas.html', data="1")
 
+@app.route('/search', methods=['POST'])
+def search():
+    tipo = request.form['tipo']
+    conn = sqlite3.connect('gps.db')
+    c = conn.cursor()
+    c.execute("SELECT lat, lon FROM data WHERE id = ?", (tipo,))
+    data = c.fetchall()
+    conn.close()
+    LatLong = []
+    for i in data:
+        LatLong.append({'lat': i[0], 'lng': i[1]})
+
+
+    return render_template('/mapas.html', data=tipo, LatLong=LatLong)
 
 @app.route("/pregunta1", methods=['GET','POST'])
 def pregunta1():
@@ -129,6 +144,7 @@ def event(data):
 
 
 if __name__ == '__main__':
+    db = sqlite3.connect('gps.db')
     socketio.run(app,host='0.0.0.0',port=5050,threaded=True,debug=True, use_reloader=True)
     #app.run(host='0.0.0.0',port=5050,threaded=True,debug=True, use_reloader=True)
 
