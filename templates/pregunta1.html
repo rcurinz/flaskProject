@@ -31,7 +31,7 @@
             data: {
                 labels: [],
                 datasets: [{
-                    label: "MP 10",
+                    label: "MP 01",
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: [],
@@ -41,6 +41,20 @@
                     label: "MP 25",
                     backgroundColor: 'rgb(31,0,151)',
                     borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 10",
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "Tiempo",
+                    backgroundColor: 'rgba(255,136,0,0.47)',
+                    borderColor: 'rgb(255,136,0,0.47)',
                     data: [],
                     fill: false,
                 }],
@@ -89,10 +103,16 @@
             if (config.data.labels.length === 5) {
                 config.data.labels.shift();
                 config.data.datasets[0].data.shift();
+                config.data.datasets[1].data.shift();
+                config.data.datasets[2].data.shift();
+                config.data.datasets[3].data.shift();
+
             }
             config.data.labels.push(data.time);
             config.data.datasets[0].data.push(data.mp1);
             config.data.datasets[1].data.push(data.mp2);
+            config.data.datasets[2].data.push(data.mp3);
+            config.data.datasets[3].data.push(data.te);
             lineChart.update();
         }
     });
