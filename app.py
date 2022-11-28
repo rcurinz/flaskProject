@@ -39,7 +39,7 @@ def mp_temuco():
     return render_template('/mp-temuco.html', data="data1111")
 
 @app.route('/mapas')
-def mp_temuco():
+def mapas():
     return render_template('/mapas.html', data="data1111")
 
 
