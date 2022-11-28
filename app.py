@@ -91,7 +91,7 @@ def chart_data():
                  'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             )
             yield f"data:{json_data}\n\n"
-            time.sleep(1)
+            time.sleep(5)
 
     response = Response(stream_with_context(generate_random_data()), mimetype="text/event-stream")
     response.headers["Cache-Control"] = "no-cache"

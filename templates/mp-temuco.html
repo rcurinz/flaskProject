@@ -19,10 +19,14 @@
             height: 400px; }
     </style>
 </head>
-<body onload="grafico1()">
+<body>
      <div id="map"></div>
      <div id="div-1" style="width:1000px; height: 300px" >
-         <canvas id='myCanvas' ></canvas>
+         <canvas id='canvas1' style="display: none"></canvas>
+         <canvas id='canvas2' style="display: none"></canvas>
+         <canvas id='canvas3' style="display: none"></canvas>
+         <canvas id='canvas4' style="display: none"></canvas>
+         <canvas id='canvas5' style="display: none"></canvas>
      </div>
 
 <script>
@@ -35,83 +39,518 @@
     var mallPortal = L.marker([-38.73409,-72.61356]).addTo(map)
     var CopecNorte = L.marker([-38.71131,-72.55896]).addTo(map)
 
+    // al hacer lick en una marca poner el canvas visible
+    Paris_Centro.on('click', function(e) {
+        document.getElementById('canvas2').style.display = 'none';
+        document.getElementById('canvas3').style.display = 'none';
+        document.getElementById('canvas4').style.display = 'none';
+        document.getElementById('canvas5').style.display = 'none';
+        if (document.getElementById('canvas1').style.display === 'block') {
+            document.getElementById('canvas1').style.display = 'none';
+        } else {
+            document.getElementById('canvas1').style.display = 'block';
+        }
+    });
+    plaza_hospital.on('click', function(e) {
+        document.getElementById('canvas1').style.display = 'none';
+        document.getElementById('canvas3').style.display = 'none';
+        document.getElementById('canvas4').style.display = 'none';
+        document.getElementById('canvas5').style.display = 'none';
+        if (document.getElementById('canvas2').style.display === 'block') {
+            document.getElementById('canvas2').style.display = 'none';
+        } else {
+            document.getElementById('canvas2').style.display = 'block';
+        }
+    });
+    javieraCarrera_Recabarren.on('click', function(e) {
+        document.getElementById('canvas1').style.display = 'none';
+        document.getElementById('canvas2').style.display = 'none';
+        document.getElementById('canvas4').style.display = 'none';
+        document.getElementById('canvas5').style.display = 'none';
+        if (document.getElementById('canvas3').style.display === 'block') {
+            document.getElementById('canvas3').style.display = 'none';
+        } else {
+            document.getElementById('canvas3').style.display = 'block';
+        }
+    });
+    mallPortal.on('click', function(e) {
+        document.getElementById('canvas1').style.display = 'none';
+        document.getElementById('canvas2').style.display = 'none';
+        document.getElementById('canvas3').style.display = 'none';
+        document.getElementById('canvas5').style.display = 'none';
+        if (document.getElementById('canvas4').style.display === 'block') {
+            document.getElementById('canvas4').style.display = 'none';
+        } else {
+            document.getElementById('canvas4').style.display = 'block';
+        }
+    });
+    CopecNorte.on('click', function(e) {
+        document.getElementById('canvas1').style.display = 'none';
+        document.getElementById('canvas2').style.display = 'none';
+        document.getElementById('canvas3').style.display = 'none';
+        document.getElementById('canvas4').style.display = 'none';
+        if (document.getElementById('canvas5').style.display === 'block') {
+            document.getElementById('canvas5').style.display = 'none';
+        } else {
+            document.getElementById('canvas5').style.display = 'block';
+        }
+    });
+
+
+
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
     Paris_Centro.bindPopup(`
+    <h1>Paris Centro</h1>
 
     `)
 
     plaza_hospital.bindPopup(`
-      <h3>CAMPUS SAN JUAN PABLO II</h3>
+      <h3>Plaza Hospital</h3>
     `)
 
     javieraCarrera_Recabarren.bindPopup(`
-      <h3>CAMPUS MENCHACA LIRA</h3>
+      <h3>Javiera Carrera / Recabarren</h3>
     `)
 
     mallPortal.bindPopup(`
-      <h3>CAMPUS LUIS RIVAS DEL CANTO</h3>
+      <h3>Mall Portal Temuco</h3>
     `)
 
     CopecNorte.bindPopup(`
-      <h3>PRENSA INSTITUCIONAL</h3>
+      <h3>Copec Norte</h3>
     `)
 
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 <script>
-    function grafico1() {
-        new Chart(document.getElementById("myCanvas"), {
+    $(document).ready(function () {
+        const config1 = {
             type: 'line',
             data: {
-                labels: ["t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                labels: [],
                 datasets: [{
-                    data: [Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*10],
                     label: "MP 01",
-                    borderColor: "#3e95cd",
-                    fill: false
-                }, {
-                    data: [2,3,4,5,6,7,8,9,10],
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    fill: false,
+                },
+                {
                     label: "MP 25",
-                    borderColor: "#8e5ea2",
-                    fill: false
-                }, {
-                    data: [3,4,5,6,7,8,9,10,11],
+                    backgroundColor: 'rgb(31,0,151)',
+                    borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
                     label: "MP 10",
-                    borderColor: "#3cba9f",
-                    fill: false
-                }, {
-                    data: [4,5,6,7,8,9,10,11,12],
-                    label: "temperatura",
-                    borderColor: "#e8c3b9",
-                    fill: false
-                }
-                ]
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                }],
             },
             options: {
+                responsive: true,
                 title: {
                     display: true,
-                    text: 'Positive Cases of COVID in provinces of Canada'
+                    text: 'Datos Paris Centro'
                 },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
             }
-        });
-    }
+        };
 
+        const context = document.getElementById('canvas1').getContext('2d');
 
-        fetch('/estacion1')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
+        const lineChart = new Chart(context, config1);
 
-    setInterval('grafico1()',1000);
-    setTimeout(function(){
-   window.location.reload(1);
-}, 30000);
+        const source = new EventSource("/chart-data");
+        console.log(source);
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config1.data.labels.length === 5) {
+                config1.data.labels.shift();
+                config1.data.datasets[0].data.shift();
+                config1.data.datasets[1].data.shift();
+                config1.data.datasets[2].data.shift();
+
+            }
+            config1.data.labels.push(data.time);
+            config1.data.datasets[0].data.push(data.mp1);
+            config1.data.datasets[1].data.push(data.mp2);
+            config1.data.datasets[2].data.push(data.mp3);
+            lineChart.update();
+        }
+    });
 </script>
+<script>
+        $(document).ready(function () {
+        const config2 = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "MP 01",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 25",
+                    backgroundColor: 'rgb(31,0,151)',
+                    borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 10",
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Datos Plaza Hospital'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas2').getContext('2d');
+
+        const lineChart = new Chart(context, config2);
+
+        const source = new EventSource("/chart-data");
+        console.log(source);
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config2.data.labels.length === 5) {
+                config2.data.labels.shift();
+                config2.data.datasets[0].data.shift();
+                config2.data.datasets[1].data.shift();
+                config2.data.datasets[2].data.shift();
+
+            }
+            config2.data.labels.push(data.time);
+            config2.data.datasets[0].data.push(data.mp1);
+            config2.data.datasets[1].data.push(data.mp2);
+            config2.data.datasets[2].data.push(data.mp3);
+            lineChart.update();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        const config3 = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "MP 01",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 25",
+                    backgroundColor: 'rgb(31,0,151)',
+                    borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 10",
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Datos j. Carrera / Recabarren'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas3').getContext('2d');
+
+        const lineChart = new Chart(context, config3);
+
+        const source = new EventSource("/chart-data");
+        console.log(source);
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config3.data.labels.length === 5) {
+                config3.data.labels.shift();
+                config3.data.datasets[0].data.shift();
+                config3.data.datasets[1].data.shift();
+                config3.data.datasets[2].data.shift();
+
+            }
+            config3.data.labels.push(data.time);
+            config3.data.datasets[0].data.push(data.mp1);
+            config3.data.datasets[1].data.push(data.mp2);
+            config3.data.datasets[2].data.push(data.mp3);
+            lineChart.update();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        const config4 = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "MP 01",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 25",
+                    backgroundColor: 'rgb(31,0,151)',
+                    borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 10",
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Datos Mall Portal Temuco'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas4').getContext('2d');
+
+        const lineChart = new Chart(context, config4);
+
+        const source = new EventSource("/chart-data");
+        console.log(source);
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config4.data.labels.length === 5) {
+                config4.data.labels.shift();
+                config4.data.datasets[0].data.shift();
+                config4.data.datasets[1].data.shift();
+                config4.data.datasets[2].data.shift();
+
+            }
+            config4.data.labels.push(data.time);
+            config4.data.datasets[0].data.push(data.mp1);
+            config4.data.datasets[1].data.push(data.mp2);
+            config4.data.datasets[2].data.push(data.mp3);
+            lineChart.update();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        const config5 = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "MP 01",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 25",
+                    backgroundColor: 'rgb(31,0,151)',
+                    borderColor: 'rgb(31,0,151)',
+                    data: [],
+                    fill: false,
+                },
+                {
+                    label: "MP 10",
+                    backgroundColor: 'rgb(0,246,111)',
+                    borderColor: 'rgb(0,246,111)',
+                    data: [],
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Datos Copec Norte'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas5').getContext('2d');
+
+        const lineChart = new Chart(context, config5);
+
+        const source = new EventSource("/chart-data");
+        console.log(source);
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config5.data.labels.length === 5) {
+                config5.data.labels.shift();
+                config5.data.datasets[0].data.shift();
+                config5.data.datasets[1].data.shift();
+                config5.data.datasets[2].data.shift();
+
+            }
+            config5.data.labels.push(data.time);
+            config5.data.datasets[0].data.push(data.mp1);
+            config5.data.datasets[1].data.push(data.mp2);
+            config5.data.datasets[2].data.push(data.mp3);
+            lineChart.update();
+        }
+    });
+</script>
+
 
 </body>
 </html>
